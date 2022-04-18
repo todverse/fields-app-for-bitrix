@@ -3,36 +3,118 @@
         <DxDataGrid 
             id="dataGrid"
             :data-source='employees'
-            key-expr='ID'>
-            
+            key-expr='ID'
+            :allow-column-reordering="true"
+            :ref="dataGridRefKey">
+            <DxColumn
+                data-field="ID"
+                :allow-editing="false"
+                :width='30'>
+
+            </DxColumn>
+            <DxColumn
+                data-field="Name"
+                :allow-editing="false">
+
+            </DxColumn>
+            <DxColumn
+                data-field="Description"
+                :allow-editing="false">
+
+            </DxColumn>
+            <DxColumn
+                data-field="Value">
+
+            </DxColumn>
+            <DxColumn
+                data-field="Permissions"
+                :allow-editing="false">
+
+            </DxColumn>
+            <DxEditing
+                mode='row'
+                :allow-updating='true' />
+            <DxGroupPanel :visible='true' />
+            <DxSearchPanel :visible='true' />
+            <DxFilterRow :visible='true' />
         </DxDataGrid>
+        <DxButton 
+            text='Save Change'
+            @click='saveChanges'/>
     </div>
 </template>
  
 <script>
-import { DxDataGrid } from 'devextreme-vue/data-grid';
+import { 
+    DxDataGrid,
+    DxColumn,
+    DxEditing,
+    DxGroupPanel,
+    DxSearchPanel,
+    DxFilterRow,
+    } from 'devextreme-vue/data-grid';
+
+import DxButton from 'devextreme-vue/button';
+
+const dataGridRefKey = 'myDataGrid';
 
 export default {
     name: 'TableDataGrid',
     components: {
-        DxDataGrid
+        DxDataGrid,
+        DxColumn,
+        DxEditing,
+        DxButton,
+        DxGroupPanel,
+        DxSearchPanel,
+        DxFilterRow,
     },
     data() {
         return {
             employees: [],
-            count: 0,
+        }
+    },
+    methods: {
+        saveChanges() {
+            let obj = {};
+            let placement = BX24.placement.info().placement.split('_')[1].toLowerCase();
+            let id = BX24.placement.info().options.ID;
+            for(let num in this.employees) {
+                obj[this.employees[num].Name] = this.employees[num].Value
+            };
+            BX24.callMethod(
+                `crm.${placement}.update`, 
+                { 
+                    id: id,
+                    fields: obj,
+                    params: { "REGISTER_SONET_EVENT": "Y" }		
+                }, 
+                function(result) 
+                    {
+                        if(result.error())
+                            console.error(result.error());
+                        else
+                        {
+                            console.info(result.data());						
+                        }
+                    }
+            );
+        },
+    },
+    computed: {
+        dataGrid: function() {
+            return this.$refs[dataGridRefKey].instance;
         }
     },
     created() {
         let data = [];
-        let values = [];
-        
+
         class DataTable {
             constructor(name, description, value, permissions, ID) {
-                this.name = name;
-                this.description = description;
-                this.value = value;
-                this.permissions = permissions;
+                this.Name = name;
+                this.Description = description;
+                this.Value = value;
+                this.Permissions = permissions;
                 this.ID = ID;
             }
         }
@@ -41,30 +123,8 @@ export default {
             let placement = BX24.placement.info().placement.split('_')[1].toLowerCase();
             let id = BX24.placement.info().options.ID;
             let name, description, value, permissions;
-                BX24.callMethod(
-                `crm.${placement}.fields`, 
-                {}, 
-                (result) => {
-                    if(result.error()) {
-                        console.error(result.error());
-                    } else {
-                        let keys = Object.keys(result.data());
-                        for(let names in keys) {
-                            BX24.callMethod(
-                                `crm.${placement}.get`,
-                                { id: id },
-                                (result) => {
-                                    if(result.error()) {
-                                        console.error(result.error());
-                                    } else {
-                                        values[Number(names)] = result.data()[keys[names]];
-                                    }
-                                }
-                            );
-                        }
-                    };
-                }
-            );
+            
+
             BX24.callMethod(
                 `crm.${placement}.fields`, 
                 {}, 
@@ -72,6 +132,8 @@ export default {
                     if(result.error()) {
                         console.error(result.error());
                     } else {
+                        console.log('поля:');
+                        console.log(result.data());
                         let keys = Object.keys(result.data());
                         for(let names in keys) {
                             name = keys[names];
@@ -92,18 +154,33 @@ export default {
                             data[Number(names)] = new DataTable(name, description, value, permissions, names);
                         };
                         this.employees = data;
+                        BX24.callMethod(
+                            `crm.${placement}.get`,
+                            { id: id },
+                            (result) => {
+                                if(result.error()) {
+                                    console.error(result.error());
+                                } else {
+                                    console.log('значения:')
+                                    console.log(result.data());
+                                    let arr = [];
+                                    let b = this.employees;
+                                    Object.keys(result.data()).forEach(function(key) {
+                                        arr.push(this[key]);
+                                        for(let item in b) {
+                                            if(b[item].Name === key) {
+                                                b[item].Value = this[key];
+                                            };
+                                        };
+                                        console.log(b[arr.length-1].Name + ' ' + this[key])
+                                    }, result.data());
+                                }
+                            }
+                        );
                     };
                 });
-                console.log(values);
         };
         BX24.init(app);
-        console.log(values);
-        setTimeout(() => {
-            console.log(values);
-            values.map((elem, index) => {
-                this.employees[index].value = elem;
-            });
-        }, 10000)
     },
 }
 </script>
