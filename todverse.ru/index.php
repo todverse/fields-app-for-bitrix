@@ -48,28 +48,28 @@
       function install() {
         BX24.callMethod('placement.bind', { 
           PLACEMENT: 'CRM_LEAD_DETAIL_TAB', 
-          HANDLER: "https://todverse.ru/hundler.php", 
+          HANDLER: "./hundler.php", 
           TITLE: 'Поля', 
           DESCRIPTION: 'Показать поля', 
         }, (result) => console.log(result));
 
         BX24.callMethod('placement.bind', { 
           PLACEMENT: 'CRM_DEAL_DETAIL_TAB', 
-          HANDLER: "https://todverse.ru/hundler.php", 
+          HANDLER: "./hundler.php",  
           TITLE: 'Поля', 
           DESCRIPTION: 'Показать поля', 
         }, (result) => console.log(result));
 
         BX24.callMethod('placement.bind', { 
           PLACEMENT: 'CRM_CONTACT_DETAIL_TAB', 
-          HANDLER: "https://todverse.ru/hundler.php", 
+          HANDLER: "./hundler.php", 
           TITLE: 'Поля', 
           DESCRIPTION: 'Показать поля', 
         }, (result) => console.log(result));
 
         BX24.callMethod('placement.bind', { 
           PLACEMENT: 'CRM_COMPANY_DETAIL_TAB', 
-          HANDLER: "https://todverse.ru/hundler.php", 
+          HANDLER: "./hundler.php", 
           TITLE: 'Поля', 
           DESCRIPTION: 'Показать поля', 
         }, (result) => console.log(result));
@@ -92,13 +92,13 @@
         lead.addEventListener('click', () => {
             BX24.callMethod('placement.unbind', { 
             PLACEMENT: 'CRM_LEAD_DETAIL_TAB', 
-            HANDLER: "https://todverse.ru/hundler.php", 
+            HANDLER: "./hundler.php", 
             }, (result) => console.log(result));
         });
         lead_off.addEventListener('click', () => {
             BX24.callMethod('placement.bind', { 
             PLACEMENT: 'CRM_LEAD_DETAIL_TAB', 
-            HANDLER: "https://todverse.ru/hundler.php", 
+            HANDLER: "./hundler.php", 
             TITLE: 'Поля', 
             DESCRIPTION: 'Показать поля', 
             }, (result) => console.log(result));
@@ -107,13 +107,13 @@
         deal.addEventListener('click', () => {
             BX24.callMethod('placement.unbind', { 
             PLACEMENT: 'CRM_DEAL_DETAIL_TAB', 
-            HANDLER: "https://todverse.ru/hundler.php", 
+            HANDLER: "./hundler.php", 
             }, (result) => console.log(result));
         });
         deal_off.addEventListener('click', () => {
             BX24.callMethod('placement.bind', { 
             PLACEMENT: 'CRM_DEAL_DETAIL_TAB', 
-            HANDLER: "https://todverse.ru/hundler.php", 
+            HANDLER: "./hundler.php", 
             TITLE: 'Поля', 
             DESCRIPTION: 'Показать поля', 
             }, (result) => console.log(result));
@@ -122,13 +122,13 @@
         contact.addEventListener('click', () => {
             BX24.callMethod('placement.unbind', { 
             PLACEMENT: 'CRM_CONTACT_DETAIL_TAB', 
-            HANDLER: "https://todverse.ru/hundler.php", 
+            HANDLER: "./hundler.php", 
             }, (result) => console.log(result));
         });
         contact_off.addEventListener('click', () => {
             BX24.callMethod('placement.bind', { 
             PLACEMENT: 'CRM_CONTACT_DETAIL_TAB', 
-            HANDLER: "https://todverse.ru/hundler.php", 
+            HANDLER: "./hundler.php", 
             TITLE: 'Поля', 
             DESCRIPTION: 'Показать поля', 
             }, (result) => console.log(result));
@@ -137,13 +137,13 @@
         company.addEventListener('click', () => {
             BX24.callMethod('placement.unbind', { 
             PLACEMENT: 'CRM_COMPANY_DETAIL_TAB', 
-            HANDLER: "https://todverse.ru/hundler.php", 
+            HANDLER: "./hundler.php", 
             }, (result) => console.log(result));
         });
         company_off.addEventListener('click', () => {
             BX24.callMethod('placement.bind', { 
             PLACEMENT: 'CRM_COMPANY_DETAIL_TAB', 
-            HANDLER: "https://todverse.ru/hundler.php", 
+            HANDLER: "./hundler.php", 
             TITLE: 'Поля', 
             DESCRIPTION: 'Показать поля', 
             }, (result) => console.log(result));
