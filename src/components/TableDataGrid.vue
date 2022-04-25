@@ -7,39 +7,43 @@
             :allow-column-reordering="true"
             :ref="dataGridRefKey">
             <DxColumn
-                data-field="ID"
-                :allow-editing="false"
-                :width='30'>
-
-            </DxColumn>
-            <DxColumn
                 data-field="Name"
+                caption="Название"
                 :allow-editing="false">
 
             </DxColumn>
             <DxColumn
                 data-field="Description"
+                caption="Описание"
                 :allow-editing="false">
 
             </DxColumn>
             <DxColumn
-                data-field="Value">
+                data-field="Value"
+                caption="Значение">
 
             </DxColumn>
             <DxColumn
                 data-field="Permissions"
+                caption="Разрешения"
                 :allow-editing="false">
 
             </DxColumn>
             <DxEditing
                 mode='row'
-                :allow-updating='true' />
-            <DxGroupPanel :visible='true' />
-            <DxSearchPanel :visible='true' />
-            <DxFilterRow :visible='true' />
+                :allow-updating='true'>
+                <DxTexts 
+                    editRow="Изменить"
+                    saveRowChanges="Сохранить"
+                    cancelRowChanges="Отменить"
+                />
+            </DxEditing>
+            <DxGroupPanel :visible='true' emptyPanelText="Перенесите заголовок сюда что бы сгруппировать содержимое" />
+          <DxSearchPanel :visible='true' placeholder="Поиск..." />
+          <DxFilterRow :visible='true' />
         </DxDataGrid>
         <DxButton 
-            text='Save Change'
+            text='Сохранить'
             @click='saveChanges'/>
     </div>
 </template>
@@ -52,6 +56,7 @@ import {
     DxGroupPanel,
     DxSearchPanel,
     DxFilterRow,
+    DxTexts,
     } from 'devextreme-vue/data-grid';
 
 import DxButton from 'devextreme-vue/button';
@@ -68,6 +73,7 @@ export default {
         DxGroupPanel,
         DxSearchPanel,
         DxFilterRow,
+        DxTexts,
     },
     data() {
         return {
