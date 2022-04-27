@@ -20,9 +20,17 @@
             </DxColumn>
             <DxColumn
                 data-field="Value"
-                caption="Значение">
+                caption="Значение"
+                cell-template="grid-cell">
 
             </DxColumn>
+            <template #grid-cell="{ data }">
+              <div 
+                onmouseover='this.style.wordWrap = "break-word";this.style.overflow = "wrap";this.style.whiteSpace = "normal";'
+                onmouseout='this.style.wordWrap = "";this.style.overflow = "";this.style.whiteSpace = "";'>
+                {{ data.value }}
+              </div>
+            </template>
             <DxColumn
                 data-field="Permissions"
                 caption="Разрешения"
@@ -118,6 +126,18 @@ export default {
     created() {
         let data = [];
 
+        let type_value = {
+            WORK: 'Рабочий',
+            MOBILE: 'Мобильный',
+            FAX: 'Факс',
+            HOME: 'Домашний',
+            PAGER: 'Пейджер',
+            MAILING: 'Для рассылок',
+            OTHER: 'Другой',
+            OPENLINE: 'Онлайн-чат',
+            IMOL: 'Открытая линия',
+        }; 
+
         class DataTable {
             constructor(name, description, value, permissions, ID) {
                 this.Name = name;
@@ -181,8 +201,11 @@ export default {
                                                 if(Array.isArray(this[key])) {
                                                     b[item].Value = '';
                                                     this[key].forEach(elem => {
-                                                        b[item].Value += elem.VALUE;
-                                                        b[item].Value += ' ';
+                                                        if(type_value[elem.VALUE_TYPE]) {
+                                                            b[item].Value += `${type_value[elem.VALUE_TYPE]}: ${elem.VALUE}, `;
+                                                        } else {
+                                                            b[item].Value += `${elem.VALUE_TYPE}: ${elem.VALUE}, `;
+                                                        };
                                                     });
                                                 } else {
                                                     b[item].Value = this[key];
