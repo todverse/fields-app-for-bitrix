@@ -41,6 +41,7 @@
             <DxGroupPanel :visible='true' emptyPanelText="Перенесите заголовок сюда что бы сгруппировать содержимое" />
           <DxSearchPanel :visible='true' placeholder="Поиск..." />
           <DxFilterRow :visible='true' />
+          <DxPaging :page-size='10' />
         </DxDataGrid>
         <DxButton 
             text='Сохранить'
@@ -57,6 +58,7 @@ import {
     DxSearchPanel,
     DxFilterRow,
     DxTexts,
+    DxPaging,
     } from 'devextreme-vue/data-grid';
 
 import DxButton from 'devextreme-vue/button';
@@ -74,6 +76,7 @@ export default {
         DxSearchPanel,
         DxFilterRow,
         DxTexts,
+        DxPaging,
     },
     data() {
         return {
@@ -175,10 +178,17 @@ export default {
                                         arr.push(this[key]);
                                         for(let item in b) {
                                             if(b[item].Name === key) {
-                                                b[item].Value = this[key];
+                                                if(Array.isArray(this[key])) {
+                                                    b[item].Value = '';
+                                                    this[key].forEach(elem => {
+                                                        b[item].Value += elem.VALUE;
+                                                        b[item].Value += ' ';
+                                                    });
+                                                } else {
+                                                    b[item].Value = this[key];
+                                                }
                                             };
                                         };
-                                        console.log(b[arr.length-1].Name + ' ' + this[key])
                                     }, result.data());
                                 }
                             }
@@ -191,8 +201,3 @@ export default {
 }
 </script>
  
-<style>
-#dataGrid {
-    height: 500px;
-}
-</style>

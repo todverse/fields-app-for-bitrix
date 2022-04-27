@@ -43,33 +43,35 @@
       <button class='off' id='btn_contact'>Отключить поля в Контактах</button><button class='on' id='btn_contact-off'>Включить поля в Контактах</button> <br />
       <button class='off' id='btn_company'>Отключить поля в Компаниях</button><button class='on' id='btn_company-off'>Включить поля в Компаниях</button> <br />
     <script>
+    let domain = document.URL.slice(0, document.URL.indexOf("/?")) + '/';
+    console.log(domain);
       BX24.install(install);
 
       function install() {
         BX24.callMethod('placement.bind', { 
           PLACEMENT: 'CRM_LEAD_DETAIL_TAB', 
-          HANDLER: "./hundler.php", 
+          HANDLER: `${domain}hundler.php`, 
           TITLE: 'Поля', 
           DESCRIPTION: 'Показать поля', 
         }, (result) => console.log(result));
 
         BX24.callMethod('placement.bind', { 
           PLACEMENT: 'CRM_DEAL_DETAIL_TAB', 
-          HANDLER: "./hundler.php",  
+          HANDLER: `${domain}hundler.php`,  
           TITLE: 'Поля', 
           DESCRIPTION: 'Показать поля', 
         }, (result) => console.log(result));
 
         BX24.callMethod('placement.bind', { 
           PLACEMENT: 'CRM_CONTACT_DETAIL_TAB', 
-          HANDLER: "./hundler.php", 
+          HANDLER: `${domain}hundler.php`, 
           TITLE: 'Поля', 
           DESCRIPTION: 'Показать поля', 
         }, (result) => console.log(result));
 
         BX24.callMethod('placement.bind', { 
           PLACEMENT: 'CRM_COMPANY_DETAIL_TAB', 
-          HANDLER: "./hundler.php", 
+          HANDLER: `${domain}hundler.php`, 
           TITLE: 'Поля', 
           DESCRIPTION: 'Показать поля', 
         }, (result) => console.log(result));
@@ -92,13 +94,13 @@
         lead.addEventListener('click', () => {
             BX24.callMethod('placement.unbind', { 
             PLACEMENT: 'CRM_LEAD_DETAIL_TAB', 
-            HANDLER: "./hundler.php", 
+            HANDLER: `${domain}hundler.php`, 
             }, (result) => console.log(result));
         });
         lead_off.addEventListener('click', () => {
             BX24.callMethod('placement.bind', { 
             PLACEMENT: 'CRM_LEAD_DETAIL_TAB', 
-            HANDLER: "./hundler.php", 
+            HANDLER: `${domain}hundler.php`, 
             TITLE: 'Поля', 
             DESCRIPTION: 'Показать поля', 
             }, (result) => console.log(result));
@@ -107,13 +109,13 @@
         deal.addEventListener('click', () => {
             BX24.callMethod('placement.unbind', { 
             PLACEMENT: 'CRM_DEAL_DETAIL_TAB', 
-            HANDLER: "./hundler.php", 
+            HANDLER: `${domain}hundler.php`, 
             }, (result) => console.log(result));
         });
         deal_off.addEventListener('click', () => {
             BX24.callMethod('placement.bind', { 
             PLACEMENT: 'CRM_DEAL_DETAIL_TAB', 
-            HANDLER: "./hundler.php", 
+            HANDLER: `${domain}hundler.php`, 
             TITLE: 'Поля', 
             DESCRIPTION: 'Показать поля', 
             }, (result) => console.log(result));
@@ -122,13 +124,13 @@
         contact.addEventListener('click', () => {
             BX24.callMethod('placement.unbind', { 
             PLACEMENT: 'CRM_CONTACT_DETAIL_TAB', 
-            HANDLER: "./hundler.php", 
+            HANDLER: `${domain}hundler.php`, 
             }, (result) => console.log(result));
         });
         contact_off.addEventListener('click', () => {
             BX24.callMethod('placement.bind', { 
             PLACEMENT: 'CRM_CONTACT_DETAIL_TAB', 
-            HANDLER: "./hundler.php", 
+            HANDLER: `${domain}hundler.php`, 
             TITLE: 'Поля', 
             DESCRIPTION: 'Показать поля', 
             }, (result) => console.log(result));
@@ -137,13 +139,13 @@
         company.addEventListener('click', () => {
             BX24.callMethod('placement.unbind', { 
             PLACEMENT: 'CRM_COMPANY_DETAIL_TAB', 
-            HANDLER: "./hundler.php", 
+            HANDLER: `${domain}hundler.php`, 
             }, (result) => console.log(result));
         });
         company_off.addEventListener('click', () => {
             BX24.callMethod('placement.bind', { 
             PLACEMENT: 'CRM_COMPANY_DETAIL_TAB', 
-            HANDLER: "./hundler.php", 
+            HANDLER: `${domain}hundler.php`, 
             TITLE: 'Поля', 
             DESCRIPTION: 'Показать поля', 
             }, (result) => console.log(result));
