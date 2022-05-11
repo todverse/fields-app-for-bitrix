@@ -5,7 +5,9 @@
             :data-source='employees'
             key-expr='ID'
             :allow-column-reordering="true"
-            :ref="dataGridRefKey">
+            :ref="dataGridRefKey"
+            @initialized="onInit"
+            @saved="onRowSave">
             <DxColumn
                 data-field="Name"
                 caption="Название"
@@ -49,9 +51,10 @@
             <DxGroupPanel :visible='true' emptyPanelText="Перенесите заголовок сюда что бы сгруппировать содержимое" />
           <DxSearchPanel :visible='true' placeholder="Поиск..." />
           <DxFilterRow :visible='true' />
-          <DxPaging :page-size='10' />
+          <DxPaging :page-size='this.emploLength' />
         </DxDataGrid>
         <DxButton 
+            id='btn_save'
             text='Сохранить'
             @click='saveChanges'/>
     </div>
@@ -89,6 +92,8 @@ export default {
     data() {
         return {
             employees: [],
+            emploLength: 20,
+            btnSave: 'none',
         }
     },
     methods: {
@@ -106,16 +111,30 @@ export default {
                     fields: obj,
                     params: { "REGISTER_SONET_EVENT": "Y" }		
                 }, 
-                function(result) 
+                (result) => 
                     {
                         if(result.error())
                             console.error(result.error());
                         else
                         {
-                            console.info(result.data());						
+                            console.info(result.data());
+                            this.btnSave.style.display = 'none';
+                            						
                         }
                     }
             );
+        },
+        onInit() {
+            this.btnSave = document.getElementById('btn_save');
+            this.btnSave.style.display = 'none';
+            this.btnSave.style.position = 'fixed';
+            this.btnSave.style.top = '10px';
+            this.btnSave.style.left = '40%';
+        },
+        onRowSave() {
+            if(this.btnSave.style.display === 'none') {
+                this.btnSave.style.display = 'block';
+            };
         },
     },
     computed: {
@@ -183,6 +202,8 @@ export default {
                             data[Number(names)] = new DataTable(name, description, value, permissions, names);
                         };
                         this.employees = data;
+                        this.emploLength = this.employees.length;
+                        console.log(this.emploLength);
                         BX24.callMethod(
                             `crm.${placement}.get`,
                             { id: id },
@@ -213,6 +234,7 @@ export default {
                                             };
                                         };
                                     }, result.data());
+                                    BX24.fitWindow();
                                 }
                             }
                         );
